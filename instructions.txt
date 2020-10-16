@@ -1,0 +1,3 @@
+how to start localhost:
+      nvm install 8.10.0
+      npm run serve
