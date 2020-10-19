@@ -10,13 +10,11 @@
 		</v-col>
 		<v-col cols="12" sm="6">
 			<v-btn
-				v-if="showName"
 				@click="showOrHideName"
-			>Hide Name</v-btn>
+			>{{showName ? 'Hide Name' : 'Show Name'}}</v-btn>
 			<v-btn
-				v-else
-				@click="showOrHideName"
-			>Show Name</v-btn>
+				@click="getPlayerName"
+			>Refresh Name</v-btn>
 		</v-col>
 		<v-col cols="12" sm="6">
 			<v-btn
@@ -51,6 +49,7 @@ import { mapGetters } from 'vuex';
 			return {
 				name: '',
 				showName: true,
+				playerIdArray: [],
 
 				loadingName: false,
 				shufflingAllNames: false,
@@ -82,62 +81,76 @@ import { mapGetters } from 'vuex';
 				});
 			},
 			async shuffle(array) {
-				console.log('starting shuffle: ', array);
-				if (array.length) {
-					var currentIndex = array.length, randomIndex;
-					let temporaryValue = '';
+				let promise = new Promise((resolve, reject) => {
+					if (array.length !== 0) {
+						var currentIndex = array.length, randomIndex;
+						let temporaryValue = '';
 
-					while (0 !== currentIndex) {
-						randomIndex = Math.floor(Math.random() * currentIndex);
-						currentIndex -= 1;
+						while (0 !== currentIndex) {
+							randomIndex = Math.floor(Math.random() * currentIndex);
+							currentIndex -= 1;
 
-						temporaryValue = array[currentIndex];
-						array[currentIndex] = array[randomIndex];
-						array[randomIndex] = temporaryValue;
+							temporaryValue = array[currentIndex];
+							array[currentIndex] = array[randomIndex];
+							array[randomIndex] = temporaryValue;
+						}
+						resolve(array);
+					} else {
+						return null;
 					}
-					console.log('done with shuffle', array);
-					return await array;
-				} else {
-					return null;
-				}
+				});
+				return promise;
 			},
 			async shuffleNames () {
 				this.shufflingAllNames = true;
-				// const finishedNameArray = await this.getPlayersNames();
-				let promise = new Promise((resolve, reject) => {
-					const finishedNameArray = this.getPlayersNames();
-					if (finishedNameArray.length) {
-						resolve('stuff worked');
-					} else {
-						console.log({ finishedNameArray});
-						reject(Error('it broke'));
-					}
-				});
+				const finishedNameArray = await this.getPlayersNames();
+				const shuffledArray = await this.shuffle(finishedNameArray);
+				this.saveNewShuffledNames(shuffledArray);
 
-				promise.then(result => {
-					console.log({ result });
-				}, error => {
-					console.log({ error });
-				})
-
-				// console.log({ finishedNameArray });
-				// const shuffledNameArray = this.shuffle(finishedNameArray);
-				// console.log({ shuffledNameArray });
-				// this.shuffle(['kevin', 'chris', 'matt']);
+				this.shufflingAllNames = false;
 			},
-			async getPlayersNames () {
-				const originalNameArray = [];
-				await db.collection('games').doc(this.gameId).get()
-					.then(async function(currGame) {
-						await currGame.data().players.forEach(async function(player) {
-							await db.collection('players').doc(player.id).get()
-							.then((currentPlayer) => {
-								console.log( currentPlayer.data() );
-								originalNameArray.push(currentPlayer.data().name);
-							})
+			getPlayersNames () {
+				let promise = new Promise((resolve, reject) => {
+					db.collection('games').where('gameId', '==', this.game.number).get()
+						.then((currGame) => {
+							if (!currGame.empty) {
+								const originalNameArray = [];
+								this.playerIdArray = [];
+								let playersProcessed = 0;
+								const playerArray = currGame.docs[0].data().players;
+
+								playerArray.forEach((player) => {
+									db.collection('players').doc(player.id).get()
+									.then((currentPlayer) => {
+										originalNameArray.push(currentPlayer.data().name);
+										this.playerIdArray.push(currentPlayer.id);
+
+										playersProcessed++;
+
+										if (playersProcessed === playerArray.length) {
+											resolve(originalNameArray);
+										}
+									});
+								});
+							} else {
+								console.log('currGame does not exist');
+								return null;
+							}
+							
+						})
+						.catch(function(error) {
+							console.log({error});
+							return null;
 						});
-					});
-				return originalNameArray;
+				});
+				return promise;
+			},
+			saveNewShuffledNames (shuffledNameArray) {
+				this.playerIdArray.forEach((id, index) => {
+					db.collection('players').doc(id).set({
+						name: shuffledNameArray[index],
+					}, { merge: true });
+				});
 			},
 		}
 	}
