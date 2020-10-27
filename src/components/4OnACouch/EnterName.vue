@@ -1,8 +1,7 @@
 <template>
-	<div>
+	<div class="startGameContainer">
 		<v-col cols="12" sm="6">
-			<h3>the game id in state is: {{ game.id }}</h3>
-			<h3 v-if="showGameId">Your Game ID is {{ showGameId }}</h3>
+			<h3 v-if="showGameId">Game ID: {{ showGameId }}</h3>
 			<v-progress-circular
 				v-else
 				indeterminate

@@ -1,7 +1,7 @@
 <template>
-	<div>
+	<div class="startGameContainer">
 		<v-col cols="12" sm="6">
-			<h5>Enter the 3 digit number from your game leader</h5>
+			<h5>*Enter the 3 digit number from your game leader</h5>
 			<v-text-field
 				label="Enter Game ID"
 				outlined

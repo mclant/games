@@ -1,18 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
+    <v-app-bar app class="headline">
+      <v-toolbar-title class="text-uppercase">
         <span>Games</span>
-        <span class="font-weight-light">MATT LANT</span>
       </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Enjoy</span>
-      </v-btn>
     </v-app-bar>
 
     <v-content>
@@ -23,10 +14,12 @@
 </template>
 
 <script>
-export default {
-  name: 'App',
-  data: () => ({
-    //
-  }),
-};
+  import './appStyles.css';
+
+  export default {
+    name: 'App',
+    data: () => ({
+      //
+    }),
+  };
 </script>

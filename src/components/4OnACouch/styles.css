@@ -1,0 +1,11 @@
+.startGameContainer {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 15px;
+}
+
+.myBtn {
+	margin: 15px;
+}
