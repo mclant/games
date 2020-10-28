@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="homeContainer">
-    <v-btn @click="start4OnACouch">Play</v-btn>
-    <v-btn @click="see4OnACouchInstructions">Instructions</v-btn>
+    <v-btn class="homePageBtn" @click="start4OnACouch">Play</v-btn>
+    <v-btn class="homePageBtn" @click="see4OnACouchInstructions">Instructions</v-btn>
 
     <!-- This row will be added when i create the celebrities game -->
     <!-- <v-row justify="center" align="center" style="height: 100px">
