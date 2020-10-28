@@ -4,6 +4,7 @@ import Router from 'vue-router';
 //Route components
 import HelloWorld from '../components/HelloWorld';
 import Start4OnACouch from '../components/4OnACouch/StartGame.vue';
+import FourOnACouchInstructions from '../components/4OnACouch/Instructions.vue';
 import JoinGame from '../components/4OnACouch/JoinGame.vue';
 import StartCelebrities from '../components/Celebrities/StartGame.vue';
 import EnterName from '../components/4OnACouch/EnterName.vue';
@@ -25,6 +26,11 @@ export default new Router({
 			path: '/4onacouch',
 			name: 'Start4OnACouch',
 			component: Start4OnACouch,
+		},
+		{
+			path: '/4onacouch/instructions',
+			name: '4OnACouchInstructions',
+			component: FourOnACouchInstructions,
 		},
 		{
 			path: '/4onacouch/joingame',

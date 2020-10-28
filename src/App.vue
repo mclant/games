@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app class="headline">
       <v-toolbar-title class="text-uppercase">
-        <span>Games</span>
+        <span>Four on a Couch</span>
       </v-toolbar-title>
     </v-app-bar>
 

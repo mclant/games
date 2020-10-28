@@ -1,6 +1,6 @@
 <template>
-	<div v-if="!shufflingAllNames">
-		<v-col cols="12" sm="6">
+	<div v-if="!shufflingAllNames" class="enterNameContainer">
+		<v-col cols="12" sm="6" class="innerContainer">
 			<v-progress-circular
 				v-if="loadingName"
 				indeterminate
@@ -9,21 +9,26 @@
 			<h3 v-else-if="name && showName && !loadingName">{{ name }}</h3>
 		</v-col>
 		<v-col cols="12" sm="6">
-			<v-btn
-				@click="showOrHideName"
-			>{{showName ? 'Hide Name' : 'Show Name'}}</v-btn>
-			<v-btn
-				@click="getPlayerName"
-			>Refresh Name</v-btn>
+			<div class="innerContainer">
+				<v-btn
+					class="myBtn"
+					@click="showOrHideName"
+				>{{showName ? 'Hide Name' : 'Show Name'}}</v-btn>
+			</div>
+			<div class="innerContainer">
+				<v-btn
+					class="myBtn"
+					@click="getPlayerName"
+				>Refresh Name</v-btn>
+			</div>
 		</v-col>
-		<v-col cols="12" sm="6">
+		<v-col cols="12" sm="6" class="innerContainer">
 			<v-btn
+				class="myBtn"
+				color="primary"
 				v-if="user.isLeader"
 				@click="shuffleNames"
 			>Shuffle Names</v-btn>
-		</v-col>
-		<v-col cols="12" sm="6">
-			current game ID: {{ game.number }}
 		</v-col>
 	</div>
 	<div v-else>

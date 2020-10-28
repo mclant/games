@@ -1,5 +1,5 @@
 <template>
-	<div class="startGameContainer">
+	<div class="enterNameContainer">
 		<v-col cols="12" sm="6">
 			<h3 v-if="showGameId">Game ID: {{ showGameId }}</h3>
 			<v-progress-circular
@@ -69,7 +69,6 @@ import { mapGetters, mapMutations } from 'vuex';
 					isLeader: this.isLeader ? this.isLeader : false,
 				})
 				.then((docRef) => {
-					console.log('doc id: ', docRef.id);
 					db.collection('games').doc(this.gameId).update({
 						players: firebase.firestore.FieldValue.arrayUnion(db.collection('players').doc(docRef.id)),
 					});
