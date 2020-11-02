@@ -23,6 +23,9 @@
 			</div>
 		</v-col>
 		<v-col cols="12" sm="6" class="innerContainer">
+			<h3>Game ID: {{ game.number }}</h3>
+		</v-col>
+		<v-col cols="12" sm="6" class="innerContainer">
 			<v-btn
 				class="myBtn"
 				color="primary"
