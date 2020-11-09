@@ -22,7 +22,7 @@
 				>Refresh Name</v-btn>
 			</div>
 		</v-col>
-		<v-col cols="12" sm="6" class="innerContainer">
+		<v-col cols="12" sm="6" class="innerContainer" v-if="user.isLeader">
 			<h3>Game ID: {{ game.number }}</h3>
 		</v-col>
 		<v-col cols="12" sm="6" class="innerContainer">

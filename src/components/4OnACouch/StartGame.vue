@@ -22,7 +22,7 @@ export default {
 		'setGameNumber',
 	]),
     createGame () {
-		const newGameId = Math.floor(Math.random() * 901) + 100; // random # between 100 and 1000
+		const newGameId = Math.floor(Math.random() * 1000000) + 100000; // random # between 100,000 and 1,000,000
 		db.collection('games').where('gameId', '==', newGameId).get()
 		.then(game => {
 			if (game.empty) {
